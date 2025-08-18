@@ -1,0 +1,53 @@
+{
+  "projectName": "zerotrust-clone-proposal",
+  "version": "1.0.0",
+  "description": "A passwordless authentication flow implementing zero trust principles",
+  "auth": {
+    "provider": "webauthn",
+    "relyingParty": {
+      "name": "ZeroTrustApp",
+      "id": "v2.zerotrustclone.com",
+      "origin": "https://rust.admin.zerotrust.com"
+    },
+    "challengeLength": 32,
+    "userVerification": "preferred",
+    "timeout": 60000
+  },
+  "database": {
+    "type": "mongodb",
+    "url": "mongodb://localhost:27017/zerotrust_db",
+    "collections": {
+      "users": "users",
+      "credentials": "credentials",
+      "sessions": "sessions"
+    }
+  },
+  "server": {
+    "port": 3000,
+    "host": "localhost",
+    "corsOrigins": ["http://localhost:3000", "https://zerotrust.com"]
+  },
+  "security": {
+    "jwtSecret": "<set in environment var>",
+    "tokenExpiration": "1h",
+    "mfaRequired": true,
+    "rateLimit": {
+      "windowMs": 60000,
+      "max": 100
+    }
+  },
+  "email": {
+    "service": "magic-link",
+    "sender": "no-reply@zerotrustproposal.com",
+    "smtp": {
+      "host": "smtp.zerotrust.com",
+      "port": 587,
+      "user": "api_user",
+      "pass": "pulls from env>"
+    }
+  },
+  "logging": {
+    "level": "info",
+    "file": "./logs/app.log"
+  }
+}
